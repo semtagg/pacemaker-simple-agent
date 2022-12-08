@@ -34,7 +34,7 @@ start(void) {
 
     write(fd, mes, sizeof(mes));
     lseek(fd_check, 0, SEEK_SET);
-    write(fd_check, DISABLE, sizeof(DISABLE));
+    write(fd_check, ENABLE, sizeof(ENABLE));
 
     close(fd);
     close(fd_check);
@@ -49,7 +49,7 @@ stop(void) {
 
     write(fd, mes, sizeof(mes));
     lseek(fd_check, 0, SEEK_SET);
-    write(fd_check, ENABLE, sizeof(ENABLE));
+    write(fd_check, DISABLE, sizeof(DISABLE));
 
     close(fd);
     close(fd_check);
