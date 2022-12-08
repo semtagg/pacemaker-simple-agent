@@ -2,9 +2,9 @@ CC = gcc
 CFLAGS = -Wall -Wextra -O2 -g # C flags
 LDFLAGS = -shared -Wl,-e,mmain  # linking flags
 RM = rm -f   # rm command
-TARGET_LIB = libtest.so  # target lib
+TARGET_LIB = target.so  # target lib
 
-SRCS = libtest.c  # source files
+SRCS = target.c  # source files
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all
