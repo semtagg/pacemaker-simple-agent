@@ -2,9 +2,9 @@ CC = gcc
 CFLAGS = -Wall -Wextra -O2 -g # C flags
 LDFLAGS = -shared -Wl,-e,mmain  # linking flags
 RM = rm -f   # rm command
-TARGET_LIB = lun-mapped.so  # target lib
+TARGET_LIB = mapped-lun.so  # target lib
 
-SRCS = lun-mapped.c  # source files
+SRCS = mapped-lun.c  # source files
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all
