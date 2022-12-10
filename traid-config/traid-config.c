@@ -111,6 +111,54 @@ status(void) {
 }
 
 int
+status(void) {
+    char mes[100];
+    char path_log[100];
+    char *instance = getenv("OCF_RESOURCE_INSTANCE");
+    int n;
+    create_message(mes, "Status", instance);
+    create_path(path_log, PATH_PREFIX, instance);
+    int fd_log = open(path_log, O_WRONLY | O_APPEND | O_CREAT, 0666);
+
+    write(fd_log, mes, strlen(mes));
+    close(fd_log);
+
+    return OCF_SUCCESS;
+}
+
+int
+status(void) {
+    char mes[100];
+    char path_log[100];
+    char *instance = getenv("OCF_RESOURCE_INSTANCE");
+    int n;
+    create_message(mes, "Status", instance);
+    create_path(path_log, PATH_PREFIX, instance);
+    int fd_log = open(path_log, O_WRONLY | O_APPEND | O_CREAT, 0666);
+
+    write(fd_log, mes, strlen(mes));
+    close(fd_log);
+
+    return OCF_SUCCESS;
+}
+
+int
+status(void) {
+    char mes[100];
+    char path_log[100];
+    char *instance = getenv("OCF_RESOURCE_INSTANCE");
+    int n;
+    create_message(mes, "Status", instance);
+    create_path(path_log, PATH_PREFIX, instance);
+    int fd_log = open(path_log, O_WRONLY | O_APPEND | O_CREAT, 0666);
+
+    write(fd_log, mes, strlen(mes));
+    close(fd_log);
+
+    return OCF_SUCCESS;
+}
+
+int
 monitor(void) {
     char mes[100];
     char path_log[100];
