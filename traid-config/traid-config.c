@@ -303,6 +303,14 @@ mmain() {
         ret = monitor();
     } else if (strcmp(*argv, META_DATA_CMD) == 0) {
         ret = metadata(1, 2);
+    } else if (strcmp(*argv, RELOAD_CMD) == 0) {
+        ret = reload();
+    } else if (strcmp(*argv, NOTIFY_CMD) == 0) {
+        ret = notify();
+    } else if (strcmp(*argv, PROMOTE_CMD) == 0) {
+        ret = promote();
+    } else if (strcmp(*argv, DEMOTE_CMD) == 0) {
+        ret = demote();
     }
 
     _exit(ret);
