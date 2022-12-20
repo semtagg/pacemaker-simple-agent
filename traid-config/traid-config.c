@@ -21,6 +21,10 @@ static const char     STOP_CMD[]        = "stop";
 static const char     STATUS_CMD[]      = "status";
 static const char     MONITOR_CMD[]     = "monitor";
 static const char     META_DATA_CMD[]   = "meta-data";
+static const char     RELOAD_CMD[]      = "reload";
+static const char     PROMOTE_CMD[]     = "promote";
+static const char     DEMOTE_CMD[]      = "demote";
+static const char     NOTIFY_CMD[]      = "notify";
 
 static const char     DISABLE[]            = "one";
 static const char     ENABLE[]             = "two";
@@ -111,12 +115,12 @@ status(void) {
 }
 
 int
-status(void) {
+notify(void) {
     char mes[100];
     char path_log[100];
     char *instance = getenv("OCF_RESOURCE_INSTANCE");
     int n;
-    create_message(mes, "Status", instance);
+    create_message(mes, "Notify", instance);
     create_path(path_log, PATH_PREFIX, instance);
     int fd_log = open(path_log, O_WRONLY | O_APPEND | O_CREAT, 0666);
 
@@ -127,12 +131,12 @@ status(void) {
 }
 
 int
-status(void) {
+demote(void) {
     char mes[100];
     char path_log[100];
     char *instance = getenv("OCF_RESOURCE_INSTANCE");
     int n;
-    create_message(mes, "Status", instance);
+    create_message(mes, "Demote", instance);
     create_path(path_log, PATH_PREFIX, instance);
     int fd_log = open(path_log, O_WRONLY | O_APPEND | O_CREAT, 0666);
 
@@ -143,12 +147,28 @@ status(void) {
 }
 
 int
-status(void) {
+promote(void) {
     char mes[100];
     char path_log[100];
     char *instance = getenv("OCF_RESOURCE_INSTANCE");
     int n;
-    create_message(mes, "Status", instance);
+    create_message(mes, "Promote", instance);
+    create_path(path_log, PATH_PREFIX, instance);
+    int fd_log = open(path_log, O_WRONLY | O_APPEND | O_CREAT, 0666);
+
+    write(fd_log, mes, strlen(mes));
+    close(fd_log);
+
+    return OCF_SUCCESS;
+}
+
+int
+reload(void) {
+    char mes[100];
+    char path_log[100];
+    char *instance = getenv("OCF_RESOURCE_INSTANCE");
+    int n;
+    create_message(mes, "Reload", instance);
     create_path(path_log, PATH_PREFIX, instance);
     int fd_log = open(path_log, O_WRONLY | O_APPEND | O_CREAT, 0666);
 
@@ -251,6 +271,14 @@ handler(int out_fd, int err_fd, char *action) {
         ret = monitor();
     } else if (strcmp(action, META_DATA_CMD) == 0) {
         ret = metadata(out_fd, err_fd);
+    } else if (strcmp(action, RELOAD_CMD) == 0) {
+        ret = reload();
+    } else if (strcmp(action, NOTIFY_CMD) == 0) {
+        ret = notify();
+    } else if (strcmp(action, PROMOTE_CMD) == 0) {
+        ret = promote();
+    } else if (strcmp(action, DEMOTE_CMD) == 0) {
+        ret = demote();
     }
 
     return ret;
