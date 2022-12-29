@@ -210,17 +210,6 @@ monitor(void) {
 
 int
 metadata(int stdout, int stderr) {
-    char mes[100];
-    char path_log[100];
-    char *instance = getenv("OCF_RESOURCE_INSTANCE");
-    int n;
-    create_message(mes, "Metadata", instance);
-    create_path(path_log, PATH_PREFIX, instance);
-    int fd_log = open(path_log, O_WRONLY | O_APPEND | O_CREAT, 0666);
-
-    write(fd_log, mes, strlen(mes));
-    close(fd_log);
-
     static const char meta_data[]=
     "<?xml version=\"1.0\"?>\n"
     "<!DOCTYPE resource-agent SYSTEM \"ra-api-1.dtd\">\n"
