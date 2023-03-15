@@ -8,14 +8,14 @@
 #include <fcntl.h>
 #include <glib.h>
 
-#define	OCF_SUCCESS		0
-#define	OCF_ERR_GENERIC		1
-#define	OCF_ERR_ARGS		2
-#define	OCF_ERR_UNIMPLEMENTED	3
-#define	OCF_ERR_PERM		4
-#define	OCF_ERR_INSTALLED	5
-#define	OCF_ERR_CONFIGURED	6
-#define	OCF_NOT_RUNNING		7
+#define OCF_SUCCESS             0
+#define OCF_ERR_GENERIC         1
+#define OCF_ERR_ARGS            2
+#define OCF_ERR_UNIMPLEMENTED   3
+#define OCF_ERR_PERM            4
+#define OCF_ERR_INSTALLED       5
+#define OCF_ERR_CONFIGURED      6
+#define OCF_NOT_RUNNING         7
 
 static const char     LOG_SUFFIX[]         = ".log";
 static const char     PATH_PREFIX[]        = "/var/log/test/";
@@ -40,8 +40,16 @@ create_message(char mes[], const char *action, char *instance) {
     return;
 }
 
+void
+create_error(char** error, char* mes) {
+    char *buf = (char *)malloc(sizeof(char) * (sizeof(mes) + 1));
+    strcpy(buf, mes);
+    *error = buf;
+    return;
+}
+
 int
-start(GHashTable *params) {
+start(GHashTable *params, char **error) {
     char mes[100];
     char path_log[100];
     char *instance = g_hash_table_lookup(params, "OCF_RESOURCE_INSTANCE");
@@ -57,7 +65,7 @@ start(GHashTable *params) {
 }
 
 int
-stop(GHashTable *params) {
+stop(GHashTable *params, char **error) {
     char mes[100];
     char path_log[100];
     char *instance = g_hash_table_lookup(params, "OCF_RESOURCE_INSTANCE");
@@ -73,7 +81,7 @@ stop(GHashTable *params) {
 }
 
 int
-status(GHashTable *params) {
+status(GHashTable *params, char **error) {
     char mes[100];
     char path_log[100];
     char *instance = g_hash_table_lookup(params, "OCF_RESOURCE_INSTANCE");
@@ -89,7 +97,7 @@ status(GHashTable *params) {
 }
 
 int
-monitor(GHashTable *params) {
+monitor(GHashTable *params, char **error) {
     char mes[100];
     char path_log[100];
     char *instance = g_hash_table_lookup(params, "OCF_RESOURCE_INSTANCE");
@@ -104,7 +112,7 @@ monitor(GHashTable *params) {
 }
 
 int
-metadata(GHashTable *params, char **stdout_data) {
+metadata(GHashTable *params, char **stdout_data, char **error) {
     static const char meta_data[] = 
     "<?xml version=\"1.0\"?>\n"
     "<!DOCTYPE resource-agent SYSTEM \"ra-api-1.dtd\">\n"
@@ -136,6 +144,7 @@ metadata(GHashTable *params, char **stdout_data) {
     strcpy(buf, meta_data);
     *stdout_data = buf;
 
+    create_error(error, "All right!");
+
     return OCF_SUCCESS;
 }
-
