@@ -5,23 +5,24 @@ RM = rm -f   # rm command
 MV = mv
 MV_DIST_DIR = /usr/lib/dlopen/
 TARGET_LIB = test.so  # target lib
-MK_DIR = mkdir
+MK_DIR = mkdir -p
 
 SRCS = test.c  # source files
 OBJS = $(SRCS:.c=.o)
 
-.PHONY: all
-all: ${TARGET_LIB};
-	${MK_DIR} ${MV_DIST_DIR} 2>/dev/null; \
-   	${MV} ${TARGET_LIB} ${MV_DIST_DIR}
-
 $(TARGET_LIB): $(OBJS)
-	$(CC) ${LDFLAGS} -o $@ $^
+		$(CC) ${LDFLAGS} -o $@ $^
+
+.PHONY: install
+install: all
+		${MK_DIR} ${MV_DIST_DIR}
+		${MV} ${TARGET_LIB} ${MV_DIST_DIR}
 
 $(SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< >$@
+		$(CC) $(CFLAGS) -MM $< >$@
 
 .PHONY: clean
 clean:
-	${RM} -- ${TARGET_LIB} ${OBJS} $(SRCS:.c=.d); \
-	${RM} ${MV_DIST_DIR}${TARGET_LIB};
+		-${RM} -- ${TARGET_LIB} ${OBJS} $(SRCS:.c=.d)
+		-${RM} -- ${MV_DIST_DIR}${TARGET_LIB}
+
