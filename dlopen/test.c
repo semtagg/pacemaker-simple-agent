@@ -7,7 +7,7 @@
 void test_write_message(const char* instance, const char* message) {
     FILE* fptr;
     char path[100];
-    sprintf(path, "/var/log/test/%s.log", instance);
+    snprintf(path, sizeof(path), "/var/log/test/%s.log", instance);
 
     fptr = fopen(path, "a");
     fprintf(fptr, message, instance);
@@ -38,7 +38,7 @@ int monitor(GHashTable* params, char** error) {
     return DLOPEN_SUCCESS;
 }
 
-int metadata(GHashTable* params, char** stdout_data, char** error) {
+int metadata(char** stdout_data) {
     static const char meta_data[] = 
     "<?xml version=\"1.0\"?>\n"
     "<!DOCTYPE resource-agent SYSTEM \"ra-api-1.dtd\">\n"
@@ -56,8 +56,7 @@ int metadata(GHashTable* params, char** stdout_data, char** error) {
     "    <action name=\"meta-data\"  timeout=\"5s\" />\n"
     "  </actions>\n"
     "</resource-agent>\n";
-    test_write_message((char *)g_hash_table_lookup(params, "OCF_RESOURCE_INSTANCE"),
-                       "Action: meta-data, instance: %s.\n");
+
     *stdout_data = strdup(meta_data);
     return DLOPEN_SUCCESS;
 }

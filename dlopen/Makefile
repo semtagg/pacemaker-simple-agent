@@ -14,7 +14,7 @@ $(TARGET_LIB): $(OBJS)
 		$(CC) ${LDFLAGS} -o $@ $^
 
 .PHONY: install
-install: all
+install: $(TARGET_LIB)
 		${MK_DIR} ${MV_DIST_DIR}
 		${MV} ${TARGET_LIB} ${MV_DIST_DIR}
 
