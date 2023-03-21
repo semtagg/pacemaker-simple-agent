@@ -11,18 +11,18 @@ SRCS = test.c  # source files
 OBJS = $(SRCS:.c=.o)
 
 $(TARGET_LIB): $(OBJS)
-		$(CC) ${LDFLAGS} -o $@ $^
+	$(CC) ${LDFLAGS} -o $@ $^
 
 .PHONY: install
 install: $(TARGET_LIB)
-		${MK_DIR} ${MV_DIST_DIR}
-		${MV} ${TARGET_LIB} ${MV_DIST_DIR}
+	${MK_DIR} ${MV_DIST_DIR}
+	${MV} ${TARGET_LIB} ${MV_DIST_DIR}
 
 $(SRCS:.c=.d):%.d:%.c
-		$(CC) $(CFLAGS) -MM $< >$@
+	$(CC) $(CFLAGS) -MM $< >$@
 
 .PHONY: clean
 clean:
-		-${RM} -- ${TARGET_LIB} ${OBJS} $(SRCS:.c=.d)
-		-${RM} -- ${MV_DIST_DIR}${TARGET_LIB}
+	-${RM} -- ${TARGET_LIB} ${OBJS} $(SRCS:.c=.d)
+	-${RM} -- ${MV_DIST_DIR}${TARGET_LIB}
 
