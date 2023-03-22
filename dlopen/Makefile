@@ -3,7 +3,8 @@ CFLAGS = -Wall -Werror -fpic `pkg-config --cflags --libs glib-2.0` # C flags
 LDFLAGS = -shared  # linking flags
 RM = rm -f   # rm command
 MV = mv
-MV_DIST_DIR = /usr/lib/dlopen/
+DIST_DIR = /usr/lib/dlopen
+LOG_DIR = /var/log/dlopen
 TARGET_LIB = test.so  # target lib
 MK_DIR = mkdir -p
 
@@ -15,8 +16,9 @@ $(TARGET_LIB): $(OBJS)
 
 .PHONY: install
 install: $(TARGET_LIB)
-	${MK_DIR} ${MV_DIST_DIR}
-	${MV} ${TARGET_LIB} ${MV_DIST_DIR}
+	${MK_DIR} ${LOG_DIR}
+	${MK_DIR} ${DIST_DIR}
+	${MV} ${TARGET_LIB} ${DIST_DIR}
 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< >$@

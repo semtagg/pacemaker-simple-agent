@@ -7,7 +7,7 @@
 void test_write_message(const char* instance, const char* message) {
     FILE* fptr;
     char path[100];
-    snprintf(path, sizeof(path), "/var/log/test/%s.log", instance);
+    snprintf(path, sizeof(path), "/var/log/dlopen/%s.log", instance);
 
     fptr = fopen(path, "a");
     fprintf(fptr, message, instance);
