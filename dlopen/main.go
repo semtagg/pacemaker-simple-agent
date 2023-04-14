@@ -4,17 +4,24 @@ import "C"
 
 import (
 	"fmt"
+	"log"
 	"os"
 )
 
 func WriteMessage(inst, msg string) {
 	lg := fmt.Sprintf("/var/log/dlopen/%v.log", inst)
-	f, _ := os.OpenFile(lg, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-
+	//lg := "/var/log/dlopen/test.so.log"
+	fmt.Println(lg)
+	f, err := os.OpenFile(lg, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
 	if _, err := f.Write([]byte(msg)); err != nil {
-		f.Close()
+		f.Close() // ignore error; Write error takes precedence
+		log.Fatal(err)
 	}
 	if err := f.Close(); err != nil {
+		log.Fatal(err)
 	}
 }
 
@@ -26,19 +33,19 @@ func start(inst string) int {
 
 //export stop
 func stop(inst string) int {
-	WriteMessage(inst, fmt.Sprintf("Action: start, instance: %s.\n", inst))
+	WriteMessage(inst, fmt.Sprintf("Action: stop, instance: %s.\n", inst))
 	return 0
 }
 
 //export status
 func status(inst string) int {
-	WriteMessage(inst, fmt.Sprintf("Action: start, instance: %s.\n", inst))
+	WriteMessage(inst, fmt.Sprintf("Action: status, instance: %s.\n", inst))
 	return 0
 }
 
 //export monitor
 func monitor(inst string) int {
-	WriteMessage(inst, fmt.Sprintf("Action: start, instance: %s.\n", inst))
+	WriteMessage(inst, fmt.Sprintf("Action: monitor, instance: %s.\n", inst))
 	return 0
 }
 
