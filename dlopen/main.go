@@ -13,13 +13,16 @@ func writeMessage(inst, msg string) {
 	f, err := os.OpenFile(lg, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		// log.Fatal(err)
+		return
 	}
 	if _, err := f.Write([]byte(msg)); err != nil {
 		f.Close() // ignore error; Write error takes precedence
 		// log.Fatal(err)
+		return
 	}
 	if err := f.Close(); err != nil {
 		// log.Fatal(err)
+		return
 	}
 }
 
