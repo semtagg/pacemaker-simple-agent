@@ -14,7 +14,7 @@ default:
 	${GO} ${GOFLAGS} ${SRCS}
 
 .PHONY: install
-install: ${default}
+install: default
 	${MK_DIR} ${LOG_DIR}
 	${MK_DIR} ${DIST_DIR}
 	${MV} ${TARGET_LIB} ${DIST_DIR}
